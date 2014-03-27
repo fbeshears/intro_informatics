@@ -10,7 +10,7 @@ readlineSync = require 'readline-sync'
 
 name = readlineSync.question('Enter file name:')
 
-text = fs.readFileSync(name, 'utf-8')
+text = fs.readFileSync(name).toString()
 
 words = text.split(/\s+/)
 
