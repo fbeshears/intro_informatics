@@ -1,0 +1,7 @@
+{ "name"    : "demos",
+  "version" : "0.0.1",
+  "private" : true,
+  "dependencies" : {
+    "readline-sync" : "0.2.x"
+  }
+}

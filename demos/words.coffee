@@ -6,8 +6,6 @@
 
 dl = require './demo_lib'
 
-
-
 name = dl.rawInput('Enter file name: ')
 
 text = dl.readFile(name)
@@ -17,10 +15,10 @@ words = text.split(/\s+/)
 counts = {}
 
 for word in words
-  if counts[word]
-    counts[word] += 1
-  else
+  if not counts[word]
     counts[word] = 1
+  else
+    counts[word] +=  1
 
 
 bigcount = null
