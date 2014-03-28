@@ -3,25 +3,54 @@
 fs = require 'fs'
 readlineSync = require 'readline-sync'
 
-String.prototype.removePunctuation = () ->
-  punctuationless = this.replace(/[\]\[\.,-\/#!$%\^&\*;:{}=\-_`~()\?\'\"']/g,"")
-  return punctuationless.replace(/\s{2,}/g," ")
+if !String.prototype.removePunctuation
+  String.prototype.removePunctuation = () ->
+    punctuationless = this.replace(/[\]\[\.,-\/#!$%\^&\*;:{}=\-_`~()\?\'\"']/g,"")
+    return punctuationless.replace(/\s{2,}/g," ")
 
-Array.prototype.sum = () ->
-  total = 0
-  i = this.length
+if !String.prototype.trim
+ String.prototype.trim = () ->
+  return this.replace(/^\s+|\s+$/g,'')
 
-  while i--
-    total += this[i]
+if !String.prototype.lstrip
+ String.prototype.lstrip = () ->
+  return this.replace(/^\s+/g,'')
 
-  return total
+if !String.prototype.rstrip
+ String.prototype.rstrip = () ->
+  return this.replace(/\s+$/g,'')
 
-String.prototype.startsWith = (s) ->
-  return s == this.slice(0,s.length)
 
-String.prototype.endsWith = (s) ->
-  n = this.length
-  return s == this.slice(n - s.length, n)
+if !String.prototype.startsWith
+  String.prototype.startsWith = (s) ->
+    return s == this.slice(0,s.length)
+
+if !String.prototype.endsWith
+  String.prototype.endsWith = (s) ->
+    n = this.length
+    return s == this.slice(n - s.length, n)
+
+if !Array.prototype.sum
+  Array.prototype.sum = () ->
+    total = 0
+    i = this.length
+    while i--
+      total += this[i]                                                                                                                        
+    return total
+
+
+# Use RegExp.escape if you literally want to search for
+# the string "^Subject". For example:
+# search = RegExp.escape(inp)
+#
+# Don't use it if you just want ^Subject to be a regular expression
+# that searches for "Subject" at the beginning of a string.
+
+if !RegExp.escape
+  RegExp.escape = (s) ->
+      return s.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&')
+
+
 
 readFile = (fname) ->
   text = fs.readFileSync(fname).toString()

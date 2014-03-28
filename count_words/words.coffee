@@ -4,23 +4,21 @@
 # Python for Informatics by Charles Severance
 # Section 1.8   p. 11
 
-dl = require './demo_lib'
 
+fs = require 'fs'
+readlineSync = require 'readline-sync'
 
+name = readlineSync.question('Enter file name:')
 
-name = dl.rawInput('Enter file name: ')
-
-text = dl.readFile(name)
+text = fs.readFileSync(name).toString()
 
 words = text.split(/\s+/)
 
 counts = {}
 
 for word in words
-  if counts[word]
-    counts[word] += 1
-  else
-    counts[word] = 1
+  count = counts[word]
+  counts[word] = if count then count + 1 else 1
 
 
 bigcount = null
