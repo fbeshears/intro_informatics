@@ -1,7 +1,9 @@
 { "name"    : "demos",
-  "version" : "0.0.1",
+  "version" : "0.0.2",
   "private" : true,
   "dependencies" : {
-    "readline-sync" : "0.2.x"
+    "sync" : "0.2.x",
+    "readline-sync" : "0.2.x",
+    "request" : "2.34.x"
   }
 }

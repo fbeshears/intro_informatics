@@ -1,6 +1,10 @@
 #demo_lib.coffee
 
 fs = require 'fs'
+http = require 'http'
+url = require 'url'
+request = require 'request'
+
 readlineSync = require 'readline-sync'
 
 if !String.prototype.removePunctuation
@@ -51,6 +55,25 @@ if !RegExp.escape
       return s.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&')
 
 
+download = (uri, filename, callback) ->
+  r = request(uri).pipe(fs.createWriteStream(filename))
+  r.on('close', callback)
+  return
+
+
+
+
+urlReadText = (target_url, callback) ->
+  parsed_url = url.parse(target_url)
+  request = http.get parsed_url, (response) ->
+    pageData = ""
+    response.setEncoding 'utf-8'
+    response.on 'data', (chunk) -> pageData += chunk
+    response.on 'end', () ->  callback(null, pageData)
+
+  request.on 'error', (e) -> callback("Got error: #{e.message}", null)
+  return
+
 
 readFile = (fname) ->
   text = fs.readFileSync(fname).toString()
@@ -65,6 +88,8 @@ rawInput = (prompt) ->
   return readlineSync.question(prompt)
 
 module.exports = {
+  download
+  urlReadText
   readFile
   readLines
   rawInput
