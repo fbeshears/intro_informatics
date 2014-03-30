@@ -3,7 +3,6 @@
 fs = require 'fs'
 http = require 'http'
 url = require 'url'
-request = require 'request'
 
 readlineSync = require 'readline-sync'
 
@@ -55,11 +54,12 @@ if !RegExp.escape
       return s.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&')
 
 
-download = (uri, filename, callback) ->
-  r = request(uri).pipe(fs.createWriteStream(filename))
-  r.on('close', callback)
+# get npm request module for really fancy download
+httpDownload = (uri, fileName) ->
+  writer = fs.createWriteStream(fileName)
+  request = http.get uri, (response) -> response.pipe(writer)
+  request.on 'error', (e) -> console.log("Got error: #{e.message}")
   return
-
 
 
 
@@ -88,7 +88,7 @@ rawInput = (prompt) ->
   return readlineSync.question(prompt)
 
 module.exports = {
-  download
+  httpDownload
   urlReadText
   readFile
   readLines

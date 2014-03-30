@@ -2,8 +2,6 @@
   "version" : "0.0.2",
   "private" : true,
   "dependencies" : {
-    "sync" : "0.2.x",
-    "readline-sync" : "0.2.x",
-    "request" : "2.34.x"
+    "readline-sync" : "0.2.x"
   }
 }
