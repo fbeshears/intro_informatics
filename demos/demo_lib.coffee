@@ -55,16 +55,22 @@ if !RegExp.escape
 
 
 # get npm request module for really fancy download
-httpDownload = (uri, fileName) ->
+httpDownload = (uri, fileName, callback) ->
   writer = fs.createWriteStream(fileName)
   request = http.get uri, (response) -> response.pipe(writer)
-  request.on 'error', (e) -> console.log("Got error: #{e.message}")
+  request.on 'error', (e) -> 
+    msg = "httpDownload got error: #{e.message}"
+    if callback?
+      callback(msg)
+    else
+      console.log msg
+      throw e
   return
 
 
 
 urlReadText = (target_url, callback) ->
-  parsed_url = url.parse(target_url)
+  parsed_url = url.parse(target_url) if typeof target_url is 'string'
   request = http.get parsed_url, (response) ->
     pageData = ""
     response.setEncoding 'utf-8'
@@ -85,12 +91,42 @@ readLines = (fname) ->
   return lines
 
 rawInput = (prompt) ->
-  return readlineSync.question(prompt)
+  ans = readlineSync.question(prompt)
+  return ans.trim()
+
+#zip([0, 1, 2, 3], [0, -1, -2, -3])
+# => [[0, 0], [1, -1], [2, -2], [3, -3]]
+
+zip = () ->
+  lengthArray = (arr.length for arr in arguments)
+  length = Math.min(lengthArray...)
+  for i in [0...length]
+    arr[i] for arr in arguments
 
 module.exports = {
   httpDownload
-  urlReadText
   readFile
-  readLines
   rawInput
+  readLines
+  urlReadText
+  zip
 }
+
+
+if require.main == module
+  letters = "abcde"
+  console.log "endsWith works" if letters.endsWith("de")
+  console.log "startsWith works" if letters.startsWith("ab")
+
+
+  quote = "But, soft! what light through yonder window breaks?"
+
+  no_punct_quote = quote.removePunctuation()
+
+  console.log "Quote: #{quote}"
+  console.log "No Punctuation: #{no_punct_quote}"
+
+  nums = [1,2,3,4,5]
+
+  console.log "nums: #{nums}"
+  console.log "sum: #{nums.sum()}"

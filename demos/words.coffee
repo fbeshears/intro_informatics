@@ -7,6 +7,7 @@
 dl = require './demo_lib'
 
 name = dl.rawInput('Enter file name: ')
+name = if name.length > 0 then name else 'words.txt'
 
 text = dl.readFile(name)
 
@@ -15,7 +16,7 @@ words = text.split(/\s+/)
 counts = {}
 
 for word in words
-  if not counts[word]
+  if not counts[word]?
     counts[word] = 1
   else
     counts[word] +=  1

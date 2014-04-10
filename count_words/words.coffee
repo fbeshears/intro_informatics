@@ -14,6 +14,8 @@ text = fs.readFileSync(name).toString()
 
 words = text.split(/\s+/)
 
+console.log words
+
 counts = {}
 
 for word in words

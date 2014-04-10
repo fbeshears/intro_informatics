@@ -24,7 +24,7 @@ for line in lines
 
   words = line.removePunctuation().toLowerCase().split(/\s+/)
   for word in words
-    if not counts[word]
+    if not counts[word]?
       counts[word] = 1
     else
       counts[word] +=  1

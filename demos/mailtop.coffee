@@ -14,7 +14,7 @@ for line in lines
 
   pieces = line.split(/\s+/)
   email = pieces[1]
-  if c[email]
+  if c[email]?
     c[email] += 1
   else
     c[email] = 1
